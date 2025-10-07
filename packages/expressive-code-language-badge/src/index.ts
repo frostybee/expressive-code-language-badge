@@ -10,6 +10,8 @@ const languageBadgeStyleSettings = new PluginStyleSettings({
       fontSize: '0.8rem',
       fontColor: 'red',
       fontWeight: 'bold',
+      background: 'red',
+      borderRadius: '0.5rem',
       opacity: '1',
     },
   },
@@ -21,6 +23,9 @@ interface LanguageBadgePluginOptions {
 
   /** Mapping of language identifiers to display labels. Default: `{ cpp: 'C++', sh: 'bash' }` */
   languageMap?: Record<string, string>;
+
+  /** Text transform for language labels. Default: `'uppercase'` */
+  textTransform?: 'uppercase' | 'lowercase' | 'none';
 }
 
 /**
@@ -29,10 +34,14 @@ interface LanguageBadgePluginOptions {
 export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
   const config = {
     enabled: true,
+    textTransform: 'uppercase' as const,
     languageMap: {
       cpp: 'C++',
       sh: 'bash',
-      ...options.languageMap,
+      csharp: 'C#',
+      ts: 'TypeScript',
+      js: 'JavaScript',     
+      ...options.languageMap
     },
     ...options,
   };
@@ -42,32 +51,55 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
   }
 
   return definePlugin({
-    name: "Add language label to code blocks",
-    styleSettings: languageBadgeStyleSettings,
-    baseStyles: ({ cssVar }) => `
-        .ec-language__label {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            direction: ltr;
-            font-size: ${cssVar('languageBadge.fontSize')};
-            color: ${cssVar('languageBadge.fontColor')};
-            font-weight: ${cssVar('languageBadge.fontWeight')};
-            opacity: ${cssVar('languageBadge.opacity')};
-            z-index: 22222;
-            -webkit-user-select: none;
-            user-select: none;
-            transition: opacity 0.3s;
-            position: absolute;
-            inset-block-start: calc(var(--ec-brdWd) + var(--button-spacing));
-            inset-inline-end: calc(var(--ec-brdWd) + var(--ec-uiPadInl) );
-        }
-        .expressive-code:hover .ec-language__label {
+		name: "Language Badge",
+		
+		baseStyles: ({ cssVar }) => `
+      [data-language]::before {
+      content: attr(data-language);
+        position: absolute;
+        z-index: 2;
+        right: 0.5rem;
+        top: 0.5rem;
+        padding: 0.1rem 0.5rem;        
+        font-family: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+        font-size: ${cssVar('languageBadge.fontSize')};
+        font-weight: ${cssVar('languageBadge.fontWeight')};
+        text-transform: ${config.textTransform};
+        color: ${cssVar('languageBadge.fontColor')};
+        background: ${cssVar('languageBadge.background')};
+        opacity: ${cssVar('languageBadge.opacity')};
+        border-radius: ${cssVar('languageBadge.borderRadius')};
+        pointer-events: none;
+        transition: opacity 0.3s;        
+      }
+      .frame.has-title [data-language]::before,
+      .frame.is-terminal [data-language]::before {
+        top: 2.5rem;
+      }
+      .frame {
+        @media (hover: none) {
+          & [data-language]::before {
+            opacity: 1;
+            margin-right: 3rem;
+          }
+          & [data-language]:active::before {
             opacity: 0;
+          }
         }
-        `,
+        @media (hover: hover) {
+          & [data-language]::before {
+            opacity: 1;
+          }
+          &:hover [data-language]::before {
+            opacity: 0;
+          }
+        }
+      }
+    `,
     hooks: {
       postprocessRenderedBlock: async (context) => {
+        if (!config.enabled) return;
+
         const preElement = context.renderData.blockAst.children.find(
           (child: any) => child.type === 'element' && child.tagName === 'pre'
         );
@@ -78,17 +110,12 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
 
         if (!language) return;
 
-        const label = h("div.ec-language__label", {}, [
-          remapLanguageLabel(language, config.languageMap),
-        ]);
+        const displayLabel = remapLanguageLabel(language, config.languageMap);
 
-        const ast = context.renderData.blockAst;
-        ast.children.push(label);
-
-        context.renderData.blockAst = ast;
+        preElement.properties.dataLanguage = displayLabel;
       },
-    },
-  });
+    }
+	});
 }
 
 interface LanguageBadgeStyleSettings {
@@ -103,6 +130,12 @@ interface LanguageBadgeStyleSettings {
 
   /** The opacity for the language badge. Default: `'1'` */
   opacity: string;
+
+  /** The background color for the language badge. Default: `'red'` */
+  background: string;
+
+  /** The border radius for the language badge. Default: `'0.5rem'` */
+  borderRadius: string;
 }
 
 declare module '@expressive-code/core' {
