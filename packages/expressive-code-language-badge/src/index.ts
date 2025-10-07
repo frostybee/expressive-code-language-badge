@@ -2,45 +2,47 @@ import { definePlugin, PluginStyleSettings } from '@expressive-code/core';
 import { h } from '@expressive-code/core/hast';
 
 /**
+ * NOTE: The implementation of this plugin is based on the following issue comment: 
+ * https://github.com/expressive-code/expressive-code/issues/153#issuecomment-2282218684
+ */
+ 
+
+/**
  * Default style settings for the language badge plugin
  */
 const languageBadgeStyleSettings = new PluginStyleSettings({
   defaultValues: {
     languageBadge: {
-      fontSize: '0.8rem',
-      fontColor: 'red',
+      fontSize: '0.75rem',
+      fontColor: 'darkblue  ',
       fontWeight: 'bold',
-      background: 'red',
-      borderRadius: '0.5rem',
+      background: 'lightblue',
+      borderRadius: '0.25rem',
       opacity: '1',
+      borderWidth: '1px',
+      borderColor: 'black',
     },
   },
 });
 
 interface LanguageBadgePluginOptions {
-  /** Whether the plugin is enabled. Default: `true` */
-  enabled?: boolean;
+  
 
   /** Mapping of language identifiers to display labels. Default: `{ cpp: 'C++', sh: 'bash' }` */
   languageMap?: Record<string, string>;
 
   /** Text transform for language labels. Default: `'uppercase'` */
-  textTransform?: 'uppercase' | 'lowercase' | 'none';
+  textTransform?: 'uppercase' | 'lowercase';
 }
 
 /**
  * Creates an Expressive Code plugin that adds language badge functionality to code blocks
  */
 export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
-  const config = {
-    enabled: true,
+  const config = {    
     textTransform: 'uppercase' as const,
     languageMap: {
-      cpp: 'C++',
-      sh: 'bash',
-      csharp: 'C#',
-      ts: 'TypeScript',
-      js: 'JavaScript',     
+      cpp: 'C++',            
       ...options.languageMap
     },
     ...options,
@@ -52,7 +54,7 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
 
   return definePlugin({
 		name: "Language Badge",
-		
+		styleSettings: languageBadgeStyleSettings,
 		baseStyles: ({ cssVar }) => `
       [data-language]::before {
       content: attr(data-language);
@@ -69,8 +71,11 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
         background: ${cssVar('languageBadge.background')};
         opacity: ${cssVar('languageBadge.opacity')};
         border-radius: ${cssVar('languageBadge.borderRadius')};
+        border-width: ${cssVar('languageBadge.borderWidth')};
+        border-color: ${cssVar('languageBadge.borderColor')};  
+        border-style: solid;
         pointer-events: none;
-        transition: opacity 0.3s;        
+        transition: opacity 0.3s;
       }
       .frame.has-title [data-language]::before,
       .frame.is-terminal [data-language]::before {
@@ -98,8 +103,7 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
     `,
     hooks: {
       postprocessRenderedBlock: async (context) => {
-        if (!config.enabled) return;
-
+        
         const preElement = context.renderData.blockAst.children.find(
           (child: any) => child.type === 'element' && child.tagName === 'pre'
         );
@@ -119,26 +123,32 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
 }
 
 interface LanguageBadgeStyleSettings {
-  /** The font size for the language badge. Default: `'0.8rem'` */
+  /** The font size for the language badge. Default: `'0.75rem'` */
   fontSize: string;
 
-  /** The font color for the language badge. Default: `'#636467'` */
+  /** The font color for the language badge. Default: `'oklch(0.75 0.1 var(--hue))'` */
   fontColor: string;
 
-  /** The font weight for the language badge. Default: `'400'` */
+  /** The font weight for the language badge. Default: `'bold'` */
   fontWeight: string;
 
-  /** The opacity for the language badge. Default: `'1'` */
-  opacity: string;
-
-  /** The background color for the language badge. Default: `'red'` */
+  /** The background color for the language badge. Default: `'oklch(0.33 0.035 var(--hue))'` */
   background: string;
 
   /** The border radius for the language badge. Default: `'0.5rem'` */
   borderRadius: string;
+
+  /** The opacity for the language badge. Default: `'1'` */
+  opacity: string;
+
+  /** The border width for the language badge. Default: `'1px'` */
+  borderWidth: string;
+
+  /** The border color for the language badge. Default: `'black'` */
+  borderColor: string;
 }
 
-declare module '@expressive-code/core' {
+declare module "@expressive-code/core" {
   export interface StyleSettings {
     /** Style overrides for the language badge plugin. */
     languageBadge: LanguageBadgeStyleSettings;
