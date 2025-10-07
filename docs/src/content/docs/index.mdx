@@ -1,0 +1,39 @@
+---
+title: Expressive Code Language Badge Plugin
+description: Add language badge to code blocks in your documentation.
+head:
+  - tag: title
+    content: expressive-code-language-badge
+  - tag: style
+    content: |
+      .hero-html {
+        --size: 12rem;
+        font-size: var(--size);
+        justify-content: center;
+        line-height: var(--size);
+      }
+template: splash
+editUrl: false
+hero:
+  tagline: Add language badge to your Expressive Code blocks.
+  image:
+    file: ../../assets/language-badge.svg
+  actions:
+    - text: Get Started
+      link: /expressive-code-language-badge/getting-started/
+      icon: right-arrow
+---
+
+import { Card, CardGrid } from '@astrojs/starlight/components'
+
+## Next steps
+
+<CardGrid stagger>
+  <Card title="Install the plugin" icon="puzzle">
+    Check the [getting started guide](/expressive-code-language-badge/getting-started/) for installation instructions.
+  </Card>
+  <Card title="Configure the plugin" icon="setting">
+    Edit your config in the `astro.config.mjs` file. See the
+    [configuration guide](/expressive-code-language-badge/configuration/) for available options.
+  </Card>
+</CardGrid>

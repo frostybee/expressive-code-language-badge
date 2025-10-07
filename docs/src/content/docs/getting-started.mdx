@@ -1,0 +1,127 @@
+---
+title: Getting Started
+description: How to install and use the Expressive Code Language Badge plugin in your website.
+---
+
+The Language Badge plugin enhances [Expressive Code](https://expressive-code.com/) blocks on your website by adding a language badge to the codeblocks.
+
+This 
+
+This guide will show you how to add it to your website.
+
+## Set-up
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+import { PackageManagers } from 'starlight-package-managers';
+
+<Steps>
+
+1. Install the `expressive-code-language-badge` dependency using your preferred package manager:
+
+   <PackageManagers pkg="expressive-code-language-badge" />
+
+2. Add the plugin to your site's Expressive Code configuration:
+
+   <Tabs>
+
+   <TabItem label="Astro">
+
+   ```js title="astro.config.mjs" ins={3,8}
+   import { defineConfig } from 'astro/config';
+   import astroExpressiveCode from 'astro-expressive-code';
+   import { pluginLanguageBadge } from 'expressive-code-language-badge';
+
+   export default defineConfig({
+   	integrations: [
+   		astroExpressiveCode({
+   			plugins: [pluginLanguageBadge()],
+   		}),
+   	],
+   });
+   ```
+
+   </TabItem>
+
+   <TabItem label="Starlight">
+
+   ```js title="astro.config.mjs" ins={3,10}
+   import { defineConfig } from 'astro/config';
+   import starlight from '@astrojs/starlight';
+   import { pluginLanguageBadge } from 'expressive-code-language-badge';
+
+   export default defineConfig({
+   	integrations: [
+   		starlight({
+   			title: 'My Starlight site',
+   			expressiveCode: {
+   				plugins: [pluginLanguageBadge()],
+   			},
+   		}),
+   	],
+   });
+   ```
+
+   </TabItem>
+
+   <TabItem label="Next.js">
+
+   ```js title="next.config.mjs" ins={3,7}
+   import createMDX from '@next/mdx';
+   import rehypeExpressiveCode from 'rehype-expressive-code';
+   import { pluginLanguageBadge } from 'expressive-code-language-badge';
+
+   /** @type {import('rehype-expressive-code').RehypeExpressiveCodeOptions} */
+   const rehypeExpressiveCodeOptions = {
+   	plugins: [pluginLanguageBadge()],
+   };
+
+   /** @type {import('next').NextConfig} */
+   const nextConfig = {
+   	reactStrictMode: true,
+   	pageExtensions: ['js', 'jsx', 'ts', 'tsx', 'md', 'mdx'],
+   };
+
+   const withMDX = createMDX({
+   	extension: /\.mdx?$/,
+   	options: {
+   		remarkPlugins: [],
+   		rehypePlugins: [
+   			// The nested array structure is required to pass options
+   			// to a rehype plugin
+   			[rehypeExpressiveCode, rehypeExpressiveCodeOptions],
+   		],
+   	},
+   });
+
+   export default withMDX(nextConfig);
+   ```
+
+   </TabItem>
+
+   <TabItem label="EC config file">
+
+   ```js title="ec.config.mjs" ins={1,4}
+   import { pluginLanguageBadge } from 'expressive-code-language-badge';
+
+   export default {
+   	plugins: [pluginLanguageBadge()],
+   };
+   ```
+
+   </TabItem>
+
+   </Tabs>
+
+3. That's it! The Language Badge plugin works out of the box with sensible defaults.
+
+</Steps>
+
+## Usage
+
+For more information on how to configure the plugin, see the [Configuration](../configuration) page.
+
+
+## Support
+
+This plugin is open-source software licensed under the MIT license.
+If you run into any bugs, please [report issues on GitHub](https://github.com/frostybee/expressive-code-language-badge/issues).

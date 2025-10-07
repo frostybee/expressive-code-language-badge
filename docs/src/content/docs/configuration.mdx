@@ -1,0 +1,170 @@
+---
+title: Configuring the Language Badge Plugin
+description: A plugin for Expressive Code that adds language badges to code blocks with customizable styling options.
+sidebar:
+  label: 'Configuration'
+  order: 2
+---
+
+## Basic Usage
+
+### Default Configuration
+
+The plugin works out of the box with sensible defaults:
+
+```js
+import { pluginLanguageBadge } from 'expressive-code-language-badge';
+
+export default {
+  plugins: [
+    pluginLanguageBadge(), // Uses all default options.
+  ],
+};
+```
+
+## Configuration Options
+
+### Core Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| `enabled` | `boolean` | `true` | Enable/disable the plugin |
+| `languageMap` | `Record<string, string>` | `{ cpp: 'C++', sh: 'bash' }` | Mapping of language identifiers to display labels |
+
+### Custom Configuration
+
+You can customize the plugin behavior by passing an options object to `pluginLanguageBadge()`:
+
+```js title="ec.config.mjs"
+import { pluginLanguageBadge } from 'expressive-code-language-badge';
+
+export default defineEcConfig({
+  plugins: [
+    pluginLanguageBadge({
+      enabled: true,
+      languageMap: {
+        cpp: 'C++',
+        sh: 'bash',
+        ts: 'TypeScript',
+        js: 'JavaScript',
+      },
+    }),
+  ],
+});
+```
+
+### Custom Language Mapping
+
+You can customize how language names are displayed:
+
+```js
+pluginLanguageBadge({
+  languageMap: {
+    cpp: 'C++',
+    py: 'Python',
+    js: 'JavaScript',
+    ts: 'TypeScript',
+    sh: 'Shell',
+  },
+})
+```
+
+## Examples
+
+### Production Configuration
+```js
+pluginLanguageBadge({
+  enabled: true,
+  languageMap: {
+    cpp: 'C++',
+    ts: 'TypeScript',
+    js: 'JavaScript',
+  },
+})
+```
+
+### Minimal Configuration
+```js title="ec.config.mjs"
+pluginLanguageBadge({
+  languageMap: {
+    sh: 'bash',
+  },
+})
+```
+
+The language badge will appear in the top-right corner of your code blocks, providing users with clear visual indication of the code language.
+
+# Language Badge Plugin Theming System
+
+You can override the default styles in your Expressive Code config using the `styleOverrides.languageBadge` object if you want to change the colors, fonts, or other styles of the language badge.
+
+## Available Style Options
+
+### Badge Styling
+- **`fontSize`**: Font size of the language badge
+  - Default: `'0.8rem'`
+  - Example: `'0.75rem'`, `'14px'`
+
+- **`fontColor`**: Text color of the language badge
+  - Default: `'#636467'`
+  - Example: `'#ffffff'`, `'rgba(255, 255, 255, 0.8)'`
+
+- **`fontWeight`**: Font weight of the language badge
+  - Default: `'400'`
+  - Example: `'500'`, `'600'`, `'bold'`
+
+- **`opacity`**: Opacity of the language badge
+  - Default: `'1'`
+  - Example: `'0.8'`, `'0.9'`
+
+## Quick Start
+
+```javascript
+{
+  plugins: [pluginLanguageBadge()],
+  styleOverrides: {
+    languageBadge: {
+      fontSize: '0.75rem',
+      fontColor: '#ffffff',
+      fontWeight: '500',
+      opacity: '0.9',
+    }
+  }
+}
+```
+
+## Complete Style Configuration Example
+
+Here's a complete example showing all available style options with their default values:
+
+```javascript
+{
+  plugins: [pluginLanguageBadge()],
+  styleOverrides: {
+    languageBadge: {
+      fontSize: '0.8rem',
+      fontColor: '#636467',
+      fontWeight: '400',
+      opacity: '1',
+    }
+  }
+}
+```
+
+### Custom Style Example
+
+```javascript
+{
+  plugins: [pluginLanguageBadge()],
+  styleOverrides: {
+    languageBadge: {
+      // Prominent badge style
+      fontSize: '0.85rem',
+      fontColor: '#e6f3ff',
+      fontWeight: '600',
+      opacity: '0.95',
+    }
+  }
+}
+```
+

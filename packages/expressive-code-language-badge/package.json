@@ -1,0 +1,56 @@
+{
+  "name": "expressive-code-language-badge",
+  "version": "1.0.0",
+  "type": "module",
+  "license": "MIT",
+  "description": "Add language badge to Expressive Code codeblocks in your Astro site.",
+  "author": "frostybee",
+  "keywords": [
+    "astro",
+    "withastro",
+    "starlight",
+    "language-badge",
+    "codeblock",
+    "expressive-code"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "exports": {
+    "types": "./dist/index.d.ts",
+    "default": "./dist/index.js"
+  },
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "devDependencies": {
+    "@astrojs/starlight": "^0.36.0",
+    "@expressive-code/core": "^0.41.3",
+    "astro": "^5.14.1",
+    "typescript": "^5.9.3"
+  },
+  "peerDependencies": {
+    "@astrojs/starlight": ">=0.34",
+    "@expressive-code/core": "^0.41.3"
+  },
+  "packageManager": "pnpm@10.10.0",
+  "engines": {
+    "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "sideEffects": false,
+  "homepage": "https://github.com/frostybee/expressive-code-language-badge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frostybee/expressive-code-language-badge.git",
+    "directory": "packages/expressive-code-language-badge"
+  },
+  "bugs": "https://github.com/frostybee/expressive-code-language-badge/issues",
+  "scripts": {
+    "build": "tsup",
+    "watch": "pnpm build --watch src"
+  }
+}

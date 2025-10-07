@@ -1,0 +1,33 @@
+{
+  "name": "expressive-code-language-badge-monorepo",
+  "version": "0.0.0",
+  "license": "MIT",
+  "description": "Add fullscreen functionality to codeblocks in your documentation website.",
+  "author": "frostybee",
+  "type": "module",
+  "devDependencies": {
+    "@trivago/prettier-plugin-sort-imports": "5.2.2",
+    "eslint": "^9.37.0",
+    "prettier": "^3.6.2",
+    "prettier-plugin-astro": "^0.14.1",
+    "tsup": "^8.5.0"
+  },
+  "dependencies": {
+    "@changesets/changelog-github": "^0.5.1",
+    "@changesets/cli": "^2.29.7"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "packageManager": "pnpm@10.10.0",
+  "sideEffects": false,
+  "private": true,
+  "scripts": {
+    "build": "pnpm -F expressive-code-language-badge build",
+    "build:docs": "pnpm -F @expressive-code-language-badge/docs build",
+    "start:docs": "pnpm -F @expressive-code-language-badge/docs start",
+    "ci-version": "changeset version && pnpm install --no-frozen-lockfile",
+    "ci-publish": "pnpm build && changeset publish"
+  }
+}
