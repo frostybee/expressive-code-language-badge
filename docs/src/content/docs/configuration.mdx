@@ -28,8 +28,9 @@ export default {
 
 | Option | Type | Default | Description |
 |--------|------|---------|-------------|
-| `enabled` | `boolean` | `true` | Enable/disable the plugin |
-| `languageMap` | `Record<string, string>` | `{ cpp: 'C++', sh: 'bash' }` | Mapping of language identifiers to display labels |
+| `languageMap` | `Record<string, string>` | `{ cpp: 'C++' }` | Mapping of language identifiers to display labels |
+| `textTransform` | `'uppercase' \| 'lowercase'` | `'uppercase'` | Text transform for language labels |
+| `excludeLanguages` | `string[]` | `[]` | Array of languages to exclude from showing badges |
 
 ### Custom Configuration
 
@@ -41,10 +42,11 @@ import { pluginLanguageBadge } from 'expressive-code-language-badge';
 export default defineEcConfig({
   plugins: [
     pluginLanguageBadge({
-      enabled: true,
+      textTransform: 'lowercase',
+      excludeLanguages: ['json', 'css', 'bash'],
       languageMap: {
         cpp: 'C++',
-        sh: 'bash',
+        csharp: 'C#',
         ts: 'TypeScript',
         js: 'JavaScript',
       },
@@ -61,6 +63,7 @@ You can customize how language names are displayed:
 pluginLanguageBadge({
   languageMap: {
     cpp: 'C++',
+    csharp: 'C#',
     py: 'Python',
     js: 'JavaScript',
     ts: 'TypeScript',
@@ -69,14 +72,42 @@ pluginLanguageBadge({
 })
 ```
 
+### Excluding Languages
+
+You can exclude specific languages from showing badges:
+
+```js
+pluginLanguageBadge({
+  excludeLanguages: ['json', 'yaml', 'txt'],
+})
+```
+
+### Text Transform
+
+Control the text casing of language badges:
+
+```js
+// Uppercase (default)
+pluginLanguageBadge({
+  textTransform: 'uppercase', // Shows "JAVASCRIPT", "PYTHON", etc.
+})
+
+// Lowercase
+pluginLanguageBadge({
+  textTransform: 'lowercase', // Shows "javascript", "python", etc.
+})
+```
+
 ## Examples
 
 ### Production Configuration
 ```js
 pluginLanguageBadge({
-  enabled: true,
+  textTransform: 'uppercase',
+  excludeLanguages: ['json', 'txt'],
   languageMap: {
     cpp: 'C++',
+    csharp: 'C#',
     ts: 'TypeScript',
     js: 'JavaScript',
   },
@@ -87,7 +118,7 @@ pluginLanguageBadge({
 ```js title="ec.config.mjs"
 pluginLanguageBadge({
   languageMap: {
-    sh: 'bash',
+    cpp: 'C++',
   },
 })
 ```
@@ -98,24 +129,42 @@ The language badge will appear in the top-right corner of your code blocks, prov
 
 You can override the default styles in your Expressive Code config using the `styleOverrides.languageBadge` object if you want to change the colors, fonts, or other styles of the language badge.
 
+For more information on `styleOverrides`, see the [Expressive Code style overrides documentation](https://expressive-code.com/reference/style-overrides/).
+
 ## Available Style Options
 
 ### Badge Styling
 - **`fontSize`**: Font size of the language badge
-  - Default: `'0.8rem'`
-  - Example: `'0.75rem'`, `'14px'`
+  - Default: `'0.75rem'`
+  - Example: `'0.85rem'`, `'14px'`
 
 - **`fontColor`**: Text color of the language badge
-  - Default: `'#636467'`
+  - Default: `'darkblue'`
   - Example: `'#ffffff'`, `'rgba(255, 255, 255, 0.8)'`
 
 - **`fontWeight`**: Font weight of the language badge
-  - Default: `'400'`
-  - Example: `'500'`, `'600'`, `'bold'`
+  - Default: `'bold'`
+  - Example: `'500'`, `'600'`, `'normal'`
+
+- **`background`**: Background color of the language badge
+  - Default: `'lightblue'`
+  - Example: `'#f0f0f0'`, `'rgba(0, 0, 0, 0.1)'`
+
+- **`borderRadius`**: Border radius of the language badge
+  - Default: `'0.25rem'`
+  - Example: `'0.5rem'`, `'4px'`
 
 - **`opacity`**: Opacity of the language badge
   - Default: `'1'`
-  - Example: `'0.8'`, `'0.9'`
+  - Example: `'0.8'`, `'0.95'`
+
+- **`borderWidth`**: Border width of the language badge
+  - Default: `'0px'`
+  - Example: `'1px'`, `'2px'`
+
+- **`borderColor`**: Border color of the language badge
+  - Default: `'transparent'`
+  - Example: `'darkgray'`, `'#000000'`
 
 ## Quick Start
 
@@ -124,10 +173,14 @@ You can override the default styles in your Expressive Code config using the `st
   plugins: [pluginLanguageBadge()],
   styleOverrides: {
     languageBadge: {
-      fontSize: '0.75rem',
-      fontColor: '#ffffff',
-      fontWeight: '500',
-      opacity: '0.9',
+      fontSize: '0.85rem',
+      fontColor: 'darkblue',
+      fontWeight: '600',
+      background: 'lightgray',
+      borderRadius: '0.15rem',
+      opacity: '0.95',
+      borderWidth: '1px',
+      borderColor: 'darkgray',
     }
   }
 }
@@ -142,10 +195,14 @@ Here's a complete example showing all available style options with their default
   plugins: [pluginLanguageBadge()],
   styleOverrides: {
     languageBadge: {
-      fontSize: '0.8rem',
-      fontColor: '#636467',
-      fontWeight: '400',
+      fontSize: '0.75rem',
+      fontColor: 'darkblue',
+      fontWeight: 'bold',
+      background: 'lightblue',
+      borderRadius: '0.25rem',
       opacity: '1',
+      borderWidth: '0px',
+      borderColor: 'transparent',
     }
   }
 }
@@ -158,11 +215,15 @@ Here's a complete example showing all available style options with their default
   plugins: [pluginLanguageBadge()],
   styleOverrides: {
     languageBadge: {
-      // Prominent badge style
+      // Prominent badge style with border
       fontSize: '0.85rem',
       fontColor: '#e6f3ff',
       fontWeight: '600',
+      background: '#1a1a2e',
+      borderRadius: '0.5rem',
       opacity: '0.95',
+      borderWidth: '2px',
+      borderColor: '#0f3460',
     }
   }
 }

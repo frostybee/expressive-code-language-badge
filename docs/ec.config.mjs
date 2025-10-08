@@ -5,6 +5,7 @@ export default defineEcConfig({
   plugins: [
     pluginLanguageBadge({
       textTransform: "uppercase",
+      excludeLanguages: ["json", "css"],      
       languageMap: {
         csharp: "C#",
         cpp: "C++",
@@ -17,10 +18,8 @@ export default defineEcConfig({
       fontColor: "darkblue",
       fontWeight: "600",
       opacity: "0.95",
-      background: "lightgray",
-      borderRadius: "0.15rem",
-      borderWidth: "1px",
-      borderColor: "darkgray",
+      background: "lightblue",
+      borderRadius: "0.15rem",      
     },
   },
 });

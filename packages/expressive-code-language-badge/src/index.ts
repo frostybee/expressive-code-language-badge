@@ -18,31 +18,33 @@ const languageBadgeStyleSettings = new PluginStyleSettings({
       fontWeight: 'bold',
       background: 'lightblue',
       borderRadius: '0.25rem',
-      opacity: '1',
-      borderWidth: '1px',
-      borderColor: 'black',
+      opacity: '1', 
+      borderWidth: '0px',
+      borderColor: 'transparent',
     },
   },
 });
 
 interface LanguageBadgePluginOptions {
-  
-
   /** Mapping of language identifiers to display labels. Default: `{ cpp: 'C++', sh: 'bash' }` */
   languageMap?: Record<string, string>;
 
   /** Text transform for language labels. Default: `'uppercase'` */
   textTransform?: 'uppercase' | 'lowercase';
+
+  /** Array of languages to exclude from showing badges. Default: `[]` */
+  excludeLanguages?: string[];
 }
 
 /**
  * Creates an Expressive Code plugin that adds language badge functionality to code blocks
  */
 export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
-  const config = {    
+  const config = {
     textTransform: 'uppercase' as const,
+    excludeLanguages: [],
     languageMap: {
-      cpp: 'C++',            
+      cpp: 'C++',
       ...options.languageMap
     },
     ...options,
@@ -57,12 +59,12 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
 		styleSettings: languageBadgeStyleSettings,
 		baseStyles: ({ cssVar }) => `
       [data-language]::before {
-      content: attr(data-language);
+        content: attr(data-language);
         position: absolute;
         z-index: 2;
         right: 0.5rem;
         top: 0.5rem;
-        padding: 0.1rem 0.5rem;        
+        padding: 0.1rem 0.5rem;
         font-family: "JetBrains Mono Variable", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
         font-size: ${cssVar('languageBadge.fontSize')};
         font-weight: ${cssVar('languageBadge.fontWeight')};
@@ -72,7 +74,7 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
         opacity: ${cssVar('languageBadge.opacity')};
         border-radius: ${cssVar('languageBadge.borderRadius')};
         border-width: ${cssVar('languageBadge.borderWidth')};
-        border-color: ${cssVar('languageBadge.borderColor')};  
+        border-color: ${cssVar('languageBadge.borderColor')};
         border-style: solid;
         pointer-events: none;
         transition: opacity 0.3s;
@@ -103,7 +105,6 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
     `,
     hooks: {
       postprocessRenderedBlock: async (context) => {
-        
         const preElement = context.renderData.blockAst.children.find(
           (child: any) => child.type === 'element' && child.tagName === 'pre'
         );
@@ -111,9 +112,17 @@ export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
         if (!preElement || preElement.type !== 'element') return;
 
         const language = preElement.properties?.dataLanguage as string | undefined;
-
         if (!language) return;
 
+        // Check excludeLanguages - compare with the original language from codeBlock.
+        const originalLanguage = context.codeBlock.language;
+        if (config.excludeLanguages.includes(originalLanguage)) {
+          // Remove the data-language attribute to prevent badge from showing.
+          delete preElement.properties.dataLanguage;
+          return;
+        }
+
+        // Apply language mapping. If the language is in the languageMap, use the mapped value.
         const displayLabel = remapLanguageLabel(language, config.languageMap);
 
         preElement.properties.dataLanguage = displayLabel;
@@ -126,7 +135,7 @@ interface LanguageBadgeStyleSettings {
   /** The font size for the language badge. Default: `'0.75rem'` */
   fontSize: string;
 
-  /** The font color for the language badge. Default: `'oklch(0.75 0.1 var(--hue))'` */
+  /** The font color for the language badge. Default: `'da'` */
   fontColor: string;
 
   /** The font weight for the language badge. Default: `'bold'` */

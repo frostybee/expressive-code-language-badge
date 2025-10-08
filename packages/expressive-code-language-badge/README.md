@@ -1,22 +1,21 @@
 <div align="center">
-  <h1>Expressive Code Fullscreen</h1>
-  <p>A plugin for Expressive Code that adds fullscreen viewing capabilities to code blocks with customizable themes and accessibility features.</p>
-  
+  <h1>Expressive Code Language Badge</h1>
+  <p>A plugin for Expressive Code that adds language badges to code blocks with customizable styling.</p>
+
   [![npm version](https://badge.fury.io/js/expressive-code-language-badge.svg)](https://badge.fury.io/js/expressive-code-language-badge)
   [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 </div>
 
 ## Features
 
-- **Fullscreen Mode**: Toggle code blocks to fullscreen view for better readability
-- **Font Size Controls**: Adjust text size within fullscreen mode
-- **Keyboard Navigation**: Exit fullscreen with Escape key or browser back button
-- **Smart Targeting**: Choose to add buttons to all blocks or only titled ones
-- **Customizable Theming**: Extensive theme customization options
+- **Automatic language detection**: Shows programming language for each code block
+- **Custom language labels**: Remap identifiers (e.g., `cpp` → `C++`)
+- **Exclude languages**: Hide badges for specific languages
+- **Text transform**: Choose uppercase or lowercase display
+- **Hover interaction**: Badges fade out on hover
+- **Fully customizable**: Extensive styling options for colors, fonts, and borders
 
 ## Installation
-
-Install the plugin using your preferred package manager:
 
 ```bash
 npm install expressive-code-language-badge
@@ -25,10 +24,19 @@ npm install expressive-code-language-badge
 ## Quick Start
 
 ```js
-import { pluginFullscreen } from 'expressive-code-language-badge';
+import { pluginLanguageBadge } from 'expressive-code-language-badge';
 
 // Add to your Expressive Code configuration
-plugins: [pluginFullscreen()]
+plugins: [
+  pluginLanguageBadge({
+    textTransform: 'lowercase',
+    excludeLanguages: ['json', 'css'],
+    languageMap: {
+      cpp: 'C++',
+      csharp: 'C#',
+    },
+  })
+]
 ```
 
 ## Documentation

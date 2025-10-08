@@ -1,18 +1,18 @@
 ---
 title: Examples
-description: See the Starlight Code Block Fullscreen plugin in action with various code examples and configurations.
+description: See the Language Badge plugin in action with various code examples and configurations.
 ---
 
 ## Examples
 
-This page demonstrates the Starlight Code Block Fullscreen plugin in action with various code examples and configurations. Each code block below has a fullscreen button that you can click to see the fullscreen functionality.
+This page demonstrates the Language Badge plugin in action with various code examples and configurations. Each code block below displays a language badge in the top-right corner that fades out on hover.
 
 ## Basic Code Blocks
 
 ### JavaScript Example
 
 ```javascript title="hello-world.js"
-// Try clicking the fullscreen button (⛶) above!
+// Notice the language badge in the top-right corner!
 function greetUser(name) {
   console.log(`Hello, ${name}!`);
   return `Welcome to our documentation`;
@@ -22,12 +22,11 @@ function greetUser(name) {
 const userName = "Developer";
 const message = greetUser(userName);
 console.log(message);
-
-
 ```
+
 ## Long Code Examples
 
-These examples demonstrate how the fullscreen functionality is particularly useful for longer code blocks:
+These examples demonstrate how the language badge helps identify the programming language at a glance:
 
 
 ```python title="data_processor.py"
@@ -77,11 +76,11 @@ if processor.load_data():
 
 ## Frameless Code Blocks
 
-These code blocks don't have titles but still get fullscreen buttons (when `addToFramelessBlocks` is enabled):
+These code blocks don't have titles but still display language badges:
 
 ```bash
 # Install dependencies
-npm install starlight-plugin-fullscreen
+npm install expressive-code-language-badge
 
 # Start development server
 npm start
@@ -110,44 +109,64 @@ LIMIT 50;
 
 ## Multiple Code Blocks
 
-Here are several smaller code blocks to practice keyboard navigation:
+Here are several code blocks showing different language badges:
 
 ```javascript
-console.log("First code block");
+console.log("JavaScript example");
 ```
 
 ```python
-print("Second code block")
+print("Python example")
 ```
 
 ```bash
-echo "Third code block"
+echo "Bash example - excluded from badges"
 ```
 
 ```css
-.fourth-code-block {
+.css-example {
   color: blue;
 }
 ```
 
 ```json
 {
-  "message": "Fifth code block",
+  "message": "JSON example - excluded from badges",
   "type": "JSON"
 }
 ```
 
-## Example of Overridden Language Label
+## Custom Language Labels
 
-```cpp title="Example of Overridden Language Label"
+These examples show how the `languageMap` option remaps language identifiers to custom display labels:
+
+```cpp title="C++ Example with Custom Label"
 #include <iostream>
 int main() {
-  std::cout << "Sixth code block" << std::endl;
+  std::cout << "This shows 'C++' instead of 'cpp'" << std::endl;
   return 0;
 }
 ```
 
-```csharp title="Example of Overridden Language Label"
-Console.WriteLine("Seventh code block");
+```csharp title="C# Example with Custom Label"
+Console.WriteLine("This shows 'C#' instead of 'csharp'");
+```
+
+## Excluded Languages
+
+The following code blocks have been excluded from showing badges using the `excludeLanguages` option:
+
+```json
+{
+  "note": "JSON badges are excluded in the current configuration",
+  "showsBadge": false
+}
+```
+
+```css
+/* CSS badges are excluded too */
+.no-badge {
+  display: none;
+}
 ```
 
