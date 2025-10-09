@@ -37,6 +37,7 @@ export default {
 You can customize the plugin behavior by passing an options object to `pluginLanguageBadge()`:
 
 ```js title="ec.config.mjs"
+import { defineEcConfig } from "@astrojs/starlight/expressive-code";
 import { pluginLanguageBadge } from 'expressive-code-language-badge';
 
 export default defineEcConfig({
@@ -52,7 +53,7 @@ export default defineEcConfig({
       },
     }),
   ],
-});
+}); 
 ```
 
 ### Custom Language Mapping
