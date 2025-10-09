@@ -25,8 +25,8 @@
   "private": true,
   "scripts": {
     "build": "pnpm -F expressive-code-language-badge build",
-    "build:docs": "pnpm -F @expressive-code-language-badge/docs build",
-    "start:docs": "pnpm -F @expressive-code-language-badge/docs start",
+    "build:docs": "pnpm -F expressive-code-language-badge-docs build",
+    "start:docs": "pnpm -F expressive-code-language-badge-docs start",
     "ci-version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci-publish": "pnpm build && changeset publish"
   }
