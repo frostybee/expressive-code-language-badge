@@ -1,6 +1,6 @@
 {
   "name": "expressive-code-language-badge",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "license": "MIT",
   "description": "Add language badge to Expressive Code codeblocks in your Astro site.",
