@@ -36,13 +36,13 @@
   "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
-  },
+  },  
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
   "sideEffects": false,
-  "homepage": "https://github.com/frostybee/expressive-code-language-badge",
+  "homepage": "https://frostybee.github.io/expressive-code-language-badge/",
   "repository": {
     "type": "git",
     "url": "https://github.com/frostybee/expressive-code-language-badge.git",
