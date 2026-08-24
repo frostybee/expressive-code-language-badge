@@ -1,33 +1,39 @@
 {
   "name": "expressive-code-language-badge-monorepo",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "license": "MIT",
   "description": "Add a language badge to Expressive Code codeblocks in your Astro site.",
   "author": "frostybee",
   "type": "module",
+  "engines": {
+    "node": ">=20.3.0"
+  },
+  "packageManager": "pnpm@10.26.1",
+  "private": true,
+  "sideEffects": false,
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "5.2.2",
-    "eslint": "^9.37.0",
-    "prettier": "^3.6.2",
+    "@trivago/prettier-plugin-sort-imports": "6.0.0",
+    "eslint": "^9.39.2",
+    "prettier": "^3.7.4",
     "prettier-plugin-astro": "^0.14.1",
-    "tsup": "^8.5.0"
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@changesets/changelog-github": "^0.5.1",
-    "@changesets/cli": "^2.29.7"
+    "@changesets/changelog-github": "^0.5.2",
+    "@changesets/cli": "^3.0.1"
   },
-  "publishConfig": {
-    "access": "public",
-    "provenance": true
-  },
-  "packageManager": "pnpm@10.10.0",
-  "sideEffects": false,
-  "private": true,
   "scripts": {
     "build": "pnpm -F expressive-code-language-badge build",
     "build:docs": "pnpm -F expressive-code-language-badge-docs build",
     "start:docs": "pnpm -F expressive-code-language-badge-docs start",
     "ci-version": "changeset version && pnpm install --no-frozen-lockfile",
     "ci-publish": "pnpm build && changeset publish"
-  }
+  },
+  "homepage": "https://github.com/frostybee/expressive-code-language-badge",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/frostybee/expressive-code-language-badge.git"
+  },
+  "bugs": "https://github.com/frostybee/expressive-code-language-badge/issues"
 }

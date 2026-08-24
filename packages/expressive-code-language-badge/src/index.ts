@@ -14,7 +14,7 @@ const languageBadgeStyleSettings = new PluginStyleSettings({
   defaultValues: {
     languageBadge: {
       fontSize: '0.75rem',
-      fontColor: 'darkblue  ',
+      fontColor: 'darkblue',
       fontWeight: 'bold',
       background: 'lightblue',
       borderRadius: '0.25rem',
@@ -26,7 +26,7 @@ const languageBadgeStyleSettings = new PluginStyleSettings({
 });
 
 interface LanguageBadgePluginOptions {
-  /** Mapping of language identifiers to display labels. Default: `{ cpp: 'C++', sh: 'bash' }` */
+  /** Mapping of language identifiers to display labels. Default: `{ cpp: 'C++' }` */
   languageMap?: Record<string, string>;
 
   /** Text transform for language labels. Default: `'uppercase'` */
@@ -41,13 +41,12 @@ interface LanguageBadgePluginOptions {
  */
 export function pluginLanguageBadge(options: LanguageBadgePluginOptions = {}) {
   const config = {
-    textTransform: 'uppercase' as const,
-    excludeLanguages: [],
+    textTransform: options.textTransform ?? 'uppercase' as const,
+    excludeLanguages: options.excludeLanguages ?? [],
     languageMap: {
       cpp: 'C++',
       ...options.languageMap
     },
-    ...options,
   };
 
   function remapLanguageLabel(lang: string, languageMap: Record<string, string> = {}) {
@@ -135,25 +134,25 @@ interface LanguageBadgeStyleSettings {
   /** The font size for the language badge. Default: `'0.75rem'` */
   fontSize: string;
 
-  /** The font color for the language badge. Default: `'da'` */
+  /** The font color for the language badge. Default: `'darkblue'` */
   fontColor: string;
 
   /** The font weight for the language badge. Default: `'bold'` */
   fontWeight: string;
 
-  /** The background color for the language badge. Default: `'oklch(0.33 0.035 var(--hue))'` */
+  /** The background color for the language badge. Default: `'lightblue'` */
   background: string;
 
-  /** The border radius for the language badge. Default: `'0.5rem'` */
+  /** The border radius for the language badge. Default: `'0.25rem'` */
   borderRadius: string;
 
   /** The opacity for the language badge. Default: `'1'` */
   opacity: string;
 
-  /** The border width for the language badge. Default: `'1px'` */
+  /** The border width for the language badge. Default: `'0px'` */
   borderWidth: string;
 
-  /** The border color for the language badge. Default: `'black'` */
+  /** The border color for the language badge. Default: `'transparent'` */
   borderColor: string;
 }
 
